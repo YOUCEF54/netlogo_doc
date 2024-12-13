@@ -38,7 +38,7 @@ function App() {
       </div>
 
       {/* Main Content */}
-      <div className="main pt-[10%] px-4 ">
+      <div className="main lg:pt-[7%] max-md:pt-[14%] max-sm:pt-[16%]  px-4 ">
         {dropdownData.map((title, index) => (
           <div key={index} className='my-6'>
             {/* Dropdown Header */}
