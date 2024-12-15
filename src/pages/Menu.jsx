@@ -3,11 +3,12 @@ import axios from 'axios';
 
 function Menu() {
   const [ideas, setIdeas] = useState([]);
+  const API_URL = "http://localhost:5083/";
 
   useEffect(() => {
     const fetchIdeas = async () => {
       try {
-        const res = await axios.get('/api/ideas');
+        const res = await axios.get(API_URL+'api/idea/GetIdeas');
         if (Array.isArray(res.data)) {
           setIdeas(res.data); // Set only if res.data is an array
         } else {
