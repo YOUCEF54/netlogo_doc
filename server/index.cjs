@@ -25,3 +25,18 @@ app.get("/api/idea/GetIdeas",(request,response)=>{
         response.send(result);
     })
 })
+
+app.post("/api/idea/AddIdea",multer().none(),(request,response)=>{
+    database.collection("Idea").insertOne({
+        title :request.body.ideaTitle,
+        description: request.body.ideaDesc,
+        author: request.body.authName
+    });
+    response.json("Added Successfully")
+})
+app.delete("/api/idea/DeleteIdea",(request,response)=>{
+    database.collection("Idea").deleteOne({
+        _id:request.query._id
+    });
+    response.json("Deleted Successfully");
+})
