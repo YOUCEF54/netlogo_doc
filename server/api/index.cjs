@@ -31,7 +31,7 @@ Mongoclient.connect(conn_str, (error, client) => {
 app.get("/api/idea/GetIdeas", (request, response) => {
     database.collection("Idea").find({}).toArray((error, result) => {
         if (error) {
-            response.status(500).send("Error fetching ideas");
+            console.error("Error fetching ideas");
         } else {
             response.send(result);
         }
