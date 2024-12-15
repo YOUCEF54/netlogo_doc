@@ -24,7 +24,7 @@ function Menu() {
 
   return (
     <div>
-      <h1>Ideas</h1>
+      <h1>SMA Ideas</h1>
       {Array.isArray(ideas) && ideas.length > 0 ? (
         ideas.map((idea) => (
           <div key={idea?._id}>
