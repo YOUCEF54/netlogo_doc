@@ -11,6 +11,7 @@ function Menu() {
         const res = await axios.get(API_URL+'api/idea/GetIdeas');
         if (Array.isArray(res.data)) {
           setIdeas(res.data); // Set only if res.data is an array
+          console.log("Goood!")
         } else {
           console.error("API response is not an array:", res.data);
         }
