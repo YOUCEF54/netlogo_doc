@@ -1,69 +1,65 @@
-import { useState } from 'react';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import netlogo from '/desktopicon.png';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
+
+import { useState,useEffect } from 'react';
+import './index.css';
+
+import { Outlet } from 'react-router-dom';  // Import Outlet
+
+
+import About from './pages/About.jsx';
+import Nav from './layout/Nav.jsx';
+import Menu from './pages/Menu.jsx';
+import IdeaForm from './pages/IdeaForm.jsx';
+import TaskManager from './pages/TaskManager.jsx';
 
 function App() {
-  const dropdownData = [
-    'What is NetLogo?',
-    'How does it work?',
-    'Use cases for NetLogo',
-    'Advantages of using NetLogo',
-    'Getting started with NetLogo',
-    'NetLogo Web vs Desktop',
-    'NetLogo Examples',
-  ];
 
-  const [collapsed, setCollapsed] = useState(
-    Array(dropdownData.length).fill(true)
-  );
+  const [loading, setLoading] = useState(true);  // Step 1: Track loading state
 
-  const toggleDropdown = (index) => {
-    setCollapsed((prev) =>
-      prev.map((item, i) => (i === index ? !item : item))
-    );
-  };
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);  // Step 2: Stop loading after a delay
+    }, 2000);  // Adjust delay as needed (2 seconds here)
 
+    return () => clearTimeout(timer);  // Cleanup timeout on unmount
+  }, []);
+
+  if (loading) {
+    return <div className='w-screen h-screen flex items-center fixed bg-primary'>
+      <img
+      src={netlogo}
+      height={150}
+      width={150}
+      className='m-auto animate-pulse'
+
+      />
+    </div>;  // Step 3: Show loading screen if still loading
+  }
+
+
+  const MainLayout = () => (
+      <Nav>
+      <Outlet /> 
+      </Nav>
+        );
+  
+
+  
   return (
-    <div className="h-screen flex flex-col">
-      <header className="fixed top-0 left-0 w-full bg-black bg-opacity-15  backdrop-blur-md border-b-2 border-black">
-        <div className="flex items-center justify-between px-4 lg:px-8 h-16">
-          <a href="https://vite.dev" target="_blank" rel="noreferrer">
-            <img
-              src={netlogo}
-              className="h-10 w-10 lg:h-14 lg:w-14"
-              alt="Vite logo"
-            />
-          </a>
-          <h1 className="text-lg lg:text-2xl font-serif font-semibold text-center">
-            NetLogo Documentation
-          </h1>
-        </div>
-      </header>
-
-      <main className="flex-grow pt-16 px-4 lg:px-16 overflow-y-auto">
-        {dropdownData.map((title, index) => (
-          <div key={index} className="my-4 space-y-2">
-            <div className="p-4  flex justify-between items-center bg-zinc-50 border border-black rounded-md shadow-md">
-              <h2 className="font-semibold text-sm lg:text-base">{title}</h2>
-              <ChevronDownIcon
-                onClick={() => toggleDropdown(index)}
-                className="h-6 w-6 lg:h-8 lg:w-8 text-black cursor-pointer hover:bg-zinc-100 hover:rounded-full p-1"
-              />
-            </div>
-            <div
-              className={`transition-all duration-200 ease-in-out ${
-                collapsed[index]
-                  ? 'h-0 p-0 border-0 opacity-0'
-                  : 'max-h-[10rem] p-4 opacity-100'
-              } overflow-hidden bg-green-50 px-4  border border-green-600 rounded-md text-sm lg:text-base text-green-950`}
-            >
-              <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod, soluta!
-              </p>
-            </div>
-          </div>
-        ))}
-      </main>
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+        
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Menu />} />
+            <Route path="/new-idea" element={<IdeaForm />} />
+            <Route path="/tasks" element={<TaskManager />} />
+           
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
